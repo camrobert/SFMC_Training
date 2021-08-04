@@ -1,0 +1,13 @@
+ID,StoreCode,Name,StreetAddress1,StreetAddress2,City,State,Postcode,Country,Active,Opendate,OpenHolidays
+1001,VIC1001,South City,123 Paperback Way,,Melbourne,VIC,3000,Australia,1,2021-04-01,0
+1002,VIC1002,Inner West,555 Spine Road,,Melbourne,VIC,3000,Australia,1,2021-01-28,1
+1003,VIC1003,Melborne City,876 Victory Lane,,Melbourne,VIC,3000,Australia,1,2021-03-02,1
+1004,NSW1004,City,233 Roady Road,,Sydney,NSW,2000,Australia,1,2021-01-14,1
+1005,NSW1005,North City,2138 North Alpine Way,,Sydney,NSW,2000,Australia,0,2021-01-18,0
+1006,NSW1006,South City,736 Hard Street,,Sydney,NSW,2000,Australia,1,2021-01-26,0
+1007,NSW1007,Pitt Street Mall,76 West Ace Lane,,Sydney,NSW,2000,Australia,1,2021-01-02,1
+1008,QLD1008,Queen Street,632 Cannon Street,,Brisbane,QLD,4000,Australia,1,2021-01-27,1
+1009,QLD1009,Inner City,274 Dockland Street,,Brisbane,QLD,4000,Australia,1,2021-01-28,1
+1010,QLD1010,North City,236 Terra Lane,,Brisbane,QLD,4000,Australia,1,2021-02-17,1
+1011,QLD1011,West City,895 Northbound Way,,Brisbane,QLD,4000,Australia,0,2021-02-21,0
+1012,QLD1012,The Valley,94 The Gap Road,,Brisbane,QLD,4000,Australia,1,2021-03-21,0
