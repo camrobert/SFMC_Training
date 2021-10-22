@@ -1,0 +1,70 @@
+%%[
+SET @SubscriberKey = "e82d582a-e754-4e15-b650-b11d70be7b84"
+SET @name = Lookup('SFMC_Fundamentals-Customers','Firstname','ID',@SubscriberKey)
+SET @bookname = Lookup('SFMC_Fundamentals-Products','Name','SKU',SKU)
+]%%
+
+Getting ready for another book to read %%=v(@name)=%%?<br>
+If you liked %%=v(@bookname)=%%, you may like some of these too!
+
+
+
+
+
+
+
+<table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="min-width: 100%; " class="stylingblock-content-wrapper">
+  <tr>
+    <td style="padding: 10px; " class="stylingblock-content-wrapper camarker-inner">
+      <table cellspacing="0" cellpadding="0" role="presentation" style="width: 100%;">
+        <tr>
+          <td>
+            %%[SET @tags = LookupRows('SFMC_Fundamentals-Products_Tags','SKU',SKU)
+            FOR @i = 1 TO RowCount(@tags) DO]%%
+            <table cellspacing="0" cellpadding="0" role="presentation" border="2" style="width: 100%;">
+              <tr>
+                <td valign="top" class="responsive-td" style="width: 100%; padding-bottom: 3px;">
+                  <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="min-width: 100%; " class="stylingblock-content-wrapper">
+                    <tr>
+                      <td class="stylingblock-content-wrapper camarker-inner">
+                       <h1>%%=Field(ROW(@tags,@i),'Tag')=%%</h1>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              %%[SET @recs = LookupOrderedRows("SFMC_Fundamentals-Products_Recs",3,"Score Desc",'Tag',Field(ROW(@tags,@i),'Tag'))
+              FOR @a = 1 TO RowCount(@recs) DO
+              IF Field(ROW(@recs,@a),'SKU') != SKU THEN
+                SET @skurec = LookupRows('SFMC_Fundamentals-Products','SKU',Field(ROW(@recs,@a),'SKU'))]%%
+              <tr>
+                <td valign="top" class="responsive-td" style="width: 100%; padding-bottom: 3px;">
+                  <table border="0" cellpadding="0" cellspacing="0" width="100%" role="presentation" style="min-width: 100%; padding: 10px" class="stylingblock-content-wrapper">
+                    <tr>
+                      <td class="stylingblock-content-wrapper camarker-inner">
+                        <h3>%%=Field(ROW(@skurec,1),'Name')=%%</h3>
+                        %%=FormatNumber(SUBTRACT(Field(ROW(@recs,@a),'Score'),0.5), "N0", "en-US")=%%/10 <i>%%=Field(ROW(@skurec,1),'Author')=%%</i><br><br>
+                        %%=Field(ROW(@skurec,1),'Blurb')=%%<br><br>
+                        <b>$%%=Field(ROW(@skurec,1),'Price')=%% %%=IIF(Field(ROW(@skurec,1),'OnSale')=='True','<span style="color: red;">ON SALE!</span>',"")=%%</b><br>
+                        <br>
+                        Reviews:<br>
+                        %%[SET @reviews = LookupOrderedRows("SFMC_Fundamentals-Products_Reviews",2,"ReviewRating Desc",'SKU',Field(ROW(@recs,@a),'SKU'))
+                        FOR @b = 1 TO RowCount(@reviews) DO ]%%
+                          %%=FormatNumber(SUBTRACT(Field(ROW(@reviews,@b),'ReviewRating'),0.5), "N0", "en-US")=%%/10 - %%=FormatDate(Field(ROW(@reviews,@b),'ReviewDate'), "MMMM, yyyy")=%%<br>
+                          <i>%%=Field(ROW(@reviews,@b),'ReviewText')=%%</i><br><br>
+                        %%[NEXT @b]%%
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              %%[ENDIF
+              NEXT @a]%%
+            </table>
+            %%[NEXT @i]%%
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
