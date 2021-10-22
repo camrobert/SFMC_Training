@@ -1,0 +1,73 @@
+<script runat="server">
+Platform.Load("Core","1");
+try{
+  
+  </script>
+
+%%[
+/*========== START Config =============*/
+    SET @SubscriberKey = IIF(EMPTY(RequestParameter('SubscriberKey')), "e82d582a-e754-4e15-b650-b11d70be7b84", RequestParameter('SubscriberKey'))
+    SET @email = "xxxxxxxxxxxx.com.au"
+    SET @client_id = "xxxxxxxxxxxxxxxxx"
+    SET @client_secret = "xxxxxxxxxxxxxxxxxxx"
+    SET @URL = "https://xxxxxxxxxxxxxxxx.auth.marketingcloudapis.com/v2/token"
+    SET @eventkey = "APIEvent-xxxxxxxxxxxx-33e5efab58db"
+/*========== END Config =============*/
+
+    SET @score = IIF(EMPTY(RequestParameter('score')),8,RequestParameter('score'))
+    SET @SKU = IIF(EMPTY(RequestParameter('SKU')),159634,RequestParameter('SKU'))
+    SET @name = Lookup('SFMC_Fundamentals-Products','Name','SKU',@sku)
+
+    IF NOT EMPTY(RequestParameter('submitted')) THEN
+      /*submitted*/
+      SET @text = RequestParameter('text')
+      SET @secondsSinceEpoch = Multiply(DateDiff(DateParse('1970/01/01 00:00AM'),Now(),'MI'),60)
+
+      /*UpsertData('SFMC_Fundamentals-Products_Reviews',1,'ID',@secondsSinceEpoch,'CustomerID',@SubscriberKey,'SKU',@SKU,'ReviewText',@text,'ReviewRating',@score,'ReviewDate',NOW())*/
+
+      SET @apiid = Concat('{"client_id": "',@client_id,'","client_secret": "',@client_secret,'","grant_type": "client_credentials"}')
+      SET @httppost = HTTPPost2(@URL,"application/json",@apiid,false,@apistatusCode,@apiresponse)
+      SET @apitoken = Substring(@apistatusCode,18,512)
+      SET @accessToken = CONCAT('Bearer ', @apitoken)
+
+      SET @body = Concat('{"ContactKey": "',@SubscriberKey,'", "EventDefinitionKey":"',@eventkey,'", "Data": {"SubscriberKey":"',@SubscriberKey ,'","EmailAddress":"',@email,'","SKU":',@sku,', "Score":',@score,', "ReviewText":"',@text,'", "ReviewDate":"',NOW(),'"}}')
+
+      SET @out = HTTPPost("https://xxxxxxxxxxxxx.rest.marketingcloudapis.com/interaction/v1/events","application/json",@body,@CallStatus,'Authorization', @accessToken)
+
+    ENDIF]%%
+          
+          %%=v(@body)=%%<br><br>
+          
+          <form method="post">
+            <label for="SubscriberKey">SubscriberKey:</label>
+            <br>
+            <input type="text" id="SubscriberKey" name="SubscriberKey" value="%%=v(@SubscriberKey)=%%" disabled>
+            <br><br>
+            <label for="SKU">Book to review:</label>
+            <br>
+            <input type="text" id="book" name="book" value="%%=v(@name)=%%" disabled>
+            
+            <br>
+            <br>
+            <label for="score">Rate the book (10 = best):</label>
+            <br>
+            <select id="score" name="score" required>
+              %%[FOR @i = 1 TO 10 DO]%%
+              <option value="%%=v(@i)=%%" %%=IIF(@i==@score,'selected','')=%%>%%=v(@i)=%%</option>
+              %%[NEXT @i]%%
+            </select>
+            <br><br>
+            Comments: <br>
+            <textarea id="text" name="text" placeholder="Write a review.."  onkeydown="limit(this);" onkeyup="limit(this);"></textarea>
+            <br>
+            <input type="hidden" id="SKU" name="SKU" value="%%=v(@SKU)=%%">
+            <input type="hidden" id="submitted" name="submitted" value="1">
+            <input type="submit" value="Submit Review">
+          </form>
+          
+<script runat="server">
+} 
+catch(error) {
+Write('Message: '+ error);
+}
+</script>
