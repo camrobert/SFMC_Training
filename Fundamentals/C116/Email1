@@ -1,0 +1,45 @@
+<table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="min-width: 100%; " class="stylingblock-content-wrapper">
+  <tr>
+    <td style="padding: 10px; " class="stylingblock-content-wrapper camarker-inner">
+      <table cellspacing="0" cellpadding="0" role="presentation" style="width: 100%;">
+        <tr>
+          <td align="center">
+            <table cellspacing="0" cellpadding="0" role="presentation" dir="rtl" style="width: 100%;">
+              <tr>
+                %%[FOR @i = 10 DOWNTO 1 DO
+                IF @i == 10 THEN SET @bg = "#30a980"
+                ELSEIF @i == 9 THEN SET @bg = "#64bf5d"
+                ELSEIF @i == 8 THEN SET @bg = "#90d240"
+                ELSEIF @i == 7 THEN SET @bg = "#c1e420"
+                ELSEIF @i == 6 THEN SET @bg = "#e8ec0a"
+                ELSEIF @i == 5 THEN SET @bg = "#ffec01"
+                ELSEIF @i == 4 THEN SET @bg = "#ffd708"
+                ELSEIF @i == 3 THEN SET @bg = "#ffb919"
+                ELSEIF @i == 2 THEN SET @bg = "#ff9232"
+                ELSEIF @i == 1 THEN SET @bg = "#ff684e"
+                ELSE SET @bg = "#fb4764"
+                ENDIF]%%
+                <td valign="top" align="center" class="responsive-td" style="padding-right: 3px;">
+                  <table cellpadding="0" cellspacing="0" width="100%" dir="ltr" role="presentation" style="min-width: 100%; padding-bottom: 3px;" class="stylingblock-content-wrapper">
+                    <tr>
+                      <td class="stylingblock-content-wrapper camarker-inner" width="100%">
+                        <table border="0" cellspacing="0" cellpadding="0" dir="ltr" role="presentation" width="100%">
+                          <tr>
+                            <td class="innertd buttonblock" bgcolor="%%=v(@bg)=%%" style=" border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px; background-color: %%=v(@bg)=%%;">
+                              <a class="buttonstyles" style=" font-size: 16px; font-family: Arial, helvetica, sans-serif; color: #FFFFFF; text-align: center; text-decoration: none; display: block; background-color: %%=v(@bg)=%%; border: 1px solid #FFFFFF; padding: 10px; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px;" href="%%=Redirectto(CloudPagesURL(2965,'SKU',SKU,'score',@i))=%%" title="" alias="" conversion="false" data-linkto="http://">%%=v(@i)=%%</a>
+                            </td>
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+                %%[NEXT @i]%%
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
