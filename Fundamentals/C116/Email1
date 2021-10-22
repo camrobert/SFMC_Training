@@ -1,3 +1,13 @@
+%%[
+SET @SubscriberKey = SubscriberKey
+SET @name = Lookup('SFMC_Fundamentals-Customers','Firstname','ID',@SubscriberKey)
+SET @bookname = Lookup('SFMC_Fundamentals-Products','Name','SKU',SKU)
+]%%
+
+Thanks %%=v(@name)=%% for purchasing the book %%=v(@bookname)=%%.<br>
+We'd love to know what you think of the book - lets us know below!<br>
+
+
 <table cellpadding="0" cellspacing="0" width="100%" role="presentation" style="min-width: 100%; " class="stylingblock-content-wrapper">
   <tr>
     <td style="padding: 10px; " class="stylingblock-content-wrapper camarker-inner">
